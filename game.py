@@ -1,11 +1,16 @@
 import random
+from rich.console import Console
 from rpc import getrpc, gettime
+import os
 
 enemies = ["Smorc", "Goblin", "Rat", "Zompig"]
 
+os.system('cls')
+
+con = Console()
 
 def main():
-	c = input("Select an action:\n\n1 - New Run\n\n2 - Exit\n\n3 - Skill Info\n\n\n>> ")
+	c = con.input("[yellow bold]Select an action:[/]\n\n1 - New Run\n\n2 - Exit\n\n3 - Skill Info\n\n\n[green]>>[/] ")
 	if(c == "1"):
 		newrun()
 	elif(c == "2"):
@@ -17,12 +22,17 @@ def main():
 		main()
 
 def info():
-	print("HP: Amount of health points entity has.\nDMG: Damage entity does\nACC: Chance that your player will hit the attack.\nMOV: Multiplier of chance that entity will dodge the attack.\n\n")
+	os.system('cls')
+	con.print("[red bold]HP[/]: Amount of health points entity has.\n[yellow bold]DMG[/]: Damage entity does\n[cyan bold]ACC[/]: Chance that your player will hit the attack.\n[green bold]MOV[/]: Multiplier of chance that entity will dodge the attack.\n\n")
 	main()
 
+def printinfo(plrdat):
+	con.print("[yellow bold]Your stats[/]:\n\n[red bold]HP[/]: " + str(plrdat["hp"]) + "\n[yellow bold]DMG[/]: " + str(plrdat["dmg"]) + "\n[cyan bold]ACC[/]: " + str(plrdat["acc"]) + "\n[green bold]MOV[/]: " + str(plrdat["mov"]) + "\n")
+
 def newrun():
+	os.system('cls')
 	plrdat = {"hp":0,"dmg":0,"acc":0,"mov":0,"type":""}
-	c = input("Select hero type:\n\nArcher - very accurate yet easy to kill warrior, good against rats and goblins\nThief - weak but really sneaky guy, everyone hates him... WAIT WHERE DID MY GOLDEN WATCH GO?!?\nBerserk - strong but really inaccurate warrior, muscles.\n\n>>")
+	c = con.input("[yellow bold]Select hero type[/]:\n\n[yellow bold]Archer[/] - very accurate yet easy to kill warrior, good against rats and goblins.\n[cyan bold]Thief[/] - weak but really sneaky guy, everyone hates him... WAIT WHERE DID MY GOLDEN WATCH GO?!?\n[red bold]Berserk[/] - strong but really inaccurate warrior, muscles.\n\n[green]>>[/] ")
 	if(c == "1" or c.lower() == "archer"):
 		# Archer stats: hp = 3-6, dmg = 3-5, acc = 6-10, mov = 3-6
 		plrdat["hp"] = random.randint(3,6)
@@ -30,7 +40,8 @@ def newrun():
 		plrdat["acc"] = random.randint(6,10)
 		plrdat["mov"] = random.randint(3,6)
 		plrdat["type"] = "Archer"
-		print("Your stats:\n\nHP: " + str(plrdat["hp"]) + "\nDMG: " + str(plrdat["dmg"]) + "\nACC: " + str(plrdat["acc"]) + "\nMOV: " + str(plrdat["mov"]))
+		os.system('cls')
+		printinfo(plrdat)
 		run(plrdat)
 	elif(c == "2" or c.lower() == "thief"):
 		# Thief stats: hp = 6-9, dmg = 2-5, acc = 7-9, mov = 6-9
@@ -39,7 +50,8 @@ def newrun():
 		plrdat["acc"] = random.randint(7,9)
 		plrdat["mov"] = random.randint(6,9)
 		plrdat["type"] = "Thief"
-		print("Your stats:\n\nHP: " + str(plrdat["hp"]) + "\nDMG: " + str(plrdat["dmg"]) + "\nACC: " + str(plrdat["acc"]) + "\nMOV: " + str(plrdat["mov"]))
+		os.system('cls')
+		printinfo(plrdat)
 		run(plrdat)
 	elif(c == "3" or c.lower() == "berserk"):
 		# Berserk stats: hp = 9-13, dmg = 6-7, acc = 2-6, mov = 4-6
@@ -48,7 +60,8 @@ def newrun():
 		plrdat["acc"] = random.randint(2,6)
 		plrdat["mov"] = random.randint(4,6)
 		plrdat["type"] = "Berserk"
-		print("Your stats:\n\nHP: " + str(plrdat["hp"]) + "\nDMG: " + str(plrdat["dmg"]) + "\nACC: " + str(plrdat["acc"]) + "\nMOV: " + str(plrdat["mov"]))
+		os.system('cls')
+		printinfo(plrdat)
 		run(plrdat)
 	else:
 		newrun()
@@ -57,16 +70,17 @@ class Enemy:
 	def __init__(self, dat):
 		self.stat = dat
 	def getstatpretty(self):
-		return "HP: " + str(self.stat["hp"]) + "\nDMG: " + str(self.stat["dmg"]) + "\nMOV: " + str(self.stat["mov"])
+		return "[red bold]HP[/]: " + str(self.stat["hp"]) + "\n[yellow bold]DMG[/]: " + str(self.stat["dmg"]) + "\n[green bold]MOV[/]: " + str(self.stat["mov"])
 	def getstat(self):
 		return self.stat
 	def attack(self, plr):
 		att = self.stat["dmg"]
 		hp = plr["hp"]
 		plr["hp"] -= att
-		print(self.stat["type"] + " Attacked you and did " + str(att) + " damage!")
+		con.print("[red]" + self.stat["type"] + "[/] Attacked you and did " + str(att) + " damage!")
 
 def run(dat):
+	os.system('cls')
 	enem = random.choice(enemies)
 	getrpc().update(details="Playing as " + dat["type"], state="Fighting with " + enem, large_image="icon", large_text="Text RPG 0.0.1", start=gettime())
 	if(enem == "Rat"):
@@ -80,46 +94,57 @@ def run(dat):
 	enemy = Enemy(enemstat)
 	fight(dat, enemy)
 
+def pause(plr):
+	con.input("\n\n[yellow bold]Select an action[/]:\n[cyan bold]any[/] - Go next\n[green]>>[/] ")
+	run(plr)
+
+
+def pausemain():
+	con.input("\n\n[yellow bold]Select an action[/]:\n[cyan bold]any[/] - Go next\n[green]>>[/] ")
+	os.system('cls')
+	main()
+
 def fight(plr, enem):
-	print("\n\nYou are fighting " + enem.getstat()["type"] + " !\n\n")
-	print("Its stats:\n" + enem.getstatpretty())
-	c = input("\n\nSelect an action:\n1 - Attack\n2 - Check Your Stats\n3 - Run\n>> ")
+	#con.print("[red bold]HP[/]: " + str(plr["hp"]) + "  [yellow bold]DMG[/]: " + str(plr["dmg"]) + "  [cyan bold]ACC[/]: " + str(plr["acc"]) + "  [green bold]MOV[/]: " + str(plr["mov"]))
+	con.print("\n\nYou are fighting [red]" + enem.getstat()["type"] + "[/] !\n\n")
+	con.print("[yellow bold]Its stats[/]:\n" + enem.getstatpretty())
+	c = con.input("\n\n[yellow bold]Select an action[/]:\n1 - Attack\n2 - Check Your Stats\n3 - Run\n[green]>>[/] ")
 	if(c == "1"):
 		att = plr["dmg"]
 		enemstat = enem.getstat()
 		chance = random.randint(0,10)
 		if(plr["acc"] - chance < enemstat["mov"]):
-			print("\nYou missed your attack!")
+			con.print("\n[red][-][/]You missed your attack!")
 			fight(plr,enem)
 		else:
 			enem.getstat()["hp"] -= att
-		print("\nYou Attacked and did " + str(att) + " damage!" +"\n\nIts stats:\n" + enem.getstatpretty())
+		con.print("\n[green][+][/]You Attacked and did " + str(att) + " damage!" +"\n\n[yellow bold]Its stats[/]:\n" + enem.getstatpretty())
 		if(enem.getstat()["hp"] <= 0):
-			print("\nYou killed " + enem.getstat()["type"] + "! Skipping to the next enemy...")
-			run(plr)
+			con.print("\n[yellow][!][/]You killed [red]" + enem.getstat()["type"] + "[/]! Skipping to the next enemy...")
+			pause(plr)
 		else:
 			enem.attack(plr)
 			if(plr["hp"] <= 0):
-				print("\n\nYou have no health left... Good luck next time!\n\n")
-				main()
+				con.print("\n\n[red][!][/]You have no health left... Good luck next time!\n\n")
+				pausemain()
 			else: 
 				fight(plr, enem)
 	elif(c == "2"):
-		print("\n******\nYour stats:\n\nHP: " + str(plr["hp"]) + "\nDMG: " + str(plr["dmg"]) + "\nACC: " + str(plr["acc"]) + "\nMOV: " + str(plr["mov"]) + "\n******")
+		con.print("\n******\n[yellow bold]Your stats[/]:\n\n[red bold]HP[/]: " + str(plr["hp"]) + "\n[yellow bold]DMG[/]: " + str(plr["dmg"]) + "\n[cyan bold]ACC[/]: " + str(plr["acc"]) + "\n[green bold]MOV[/]: " + str(plr["mov"]) + "\n******")
 		fight(plr, enem)
 	elif(c == "3"):
 		chance = random.randint(1,9)
 		skill = plr["mov"]
 		if(skill<chance):
-			print("\nYou tried to escape, but failed... You tripped and got killed.\n\n\n\n\n\n")
+			con.print("\n[red][!][/]You tried to escape, but failed... You tripped and got killed.\n\n\n\n\n\n")
 			getrpc().update(details="In Main Menu", state="Died last run...", large_image="icon", large_text="Text RPG 0.0.1", start=gettime())
-			main()
+			pausemain()
 		elif(skill>chance):
-			print("\nYou tried to escape, and did it! Skipping to the next enemy...")
-			run(plr)
+			con.print("\n[green][+][/]You tried to escape, and did it! Skipping to the next enemy...")
+			pause(plr)
 		else:
-			print("\nSomething went terribly wrong. . .\n\n\n")
-			main()
+			con.print("\n[red][-][/]Something went terribly wrong. . .\n\n\n")
+			pausemain()
 	else:
 		fight(plr, enem)
 
