@@ -23,7 +23,7 @@ def main():
 
 def info():
 	os.system('cls')
-	con.print("[red bold]HP[/]: Amount of health points entity has.\n[yellow bold]DMG[/]: Damage entity does\n[cyan bold]ACC[/]: Chance that your player will hit the attack.\n[green bold]MOV[/]: Multiplier of chance that entity will dodge the attack.\n\n")
+	con.print("[red bold]HP[/]: Amount of health points entity has.\n[yellow bold]DMG[/]: Damage entity does\n[cyan bold]ACC[/]: Chance that your player will hit the attack.\n[green bold]MOV[/]: Multiplier of chance that entity will dodge the attack. OR, chance of escaping the battle.\n\n")
 	main()
 
 def printinfo(plrdat):
@@ -34,10 +34,10 @@ def newrun():
 	plrdat = {"hp":0,"dmg":0,"acc":0,"mov":0,"type":""}
 	c = con.input("[yellow bold]Select hero type[/]:\n\n[yellow bold]Archer[/] - very accurate yet easy to kill warrior, good against rats and goblins.\n[cyan bold]Thief[/] - weak but really sneaky guy, everyone hates him... WAIT WHERE DID MY GOLDEN WATCH GO?!?\n[red bold]Berserk[/] - strong but really inaccurate warrior, muscles.\n\n[green]>>[/] ")
 	if(c == "1" or c.lower() == "archer"):
-		# Archer stats: hp = 5-7, dmg = 3-5, acc = 6-10, mov = 3-6
+		# Archer stats: hp = 5-7, dmg = 3-5, acc = 7-10, mov = 3-6
 		plrdat["hp"] = random.randint(5,7)
-		plrdat["dmg"] = random.randint(3,5)
-		plrdat["acc"] = random.randint(6,10)
+		plrdat["dmg"] = random.randint(2,4)
+		plrdat["acc"] = random.randint(7,10)
 		plrdat["mov"] = random.randint(3,6)
 		plrdat["type"] = "Archer"
 		os.system('cls')
@@ -46,7 +46,7 @@ def newrun():
 	elif(c == "2" or c.lower() == "thief"):
 		# Thief stats: hp = 6-9, dmg = 2-5, acc = 7-9, mov = 6-9
 		plrdat["hp"] = random.randint(6,9)
-		plrdat["dmg"] = random.randint(2,5)
+		plrdat["dmg"] = random.randint(1,3)
 		plrdat["acc"] = random.randint(7,9)
 		plrdat["mov"] = random.randint(6,9)
 		plrdat["type"] = "Thief"
@@ -54,10 +54,10 @@ def newrun():
 		printinfo(plrdat)
 		run(plrdat)
 	elif(c == "3" or c.lower() == "berserk"):
-		# Berserk stats: hp = 9-13, dmg = 6-7, acc = 2-6, mov = 4-6
+		# Berserk stats: hp = 9-13, dmg = 6-7, acc = 4-6, mov = 4-6
 		plrdat["hp"] = random.randint(7,10)
-		plrdat["dmg"] = random.randint(6,7)
-		plrdat["acc"] = random.randint(2,6)
+		plrdat["dmg"] = random.randint(4,5)
+		plrdat["acc"] = random.randint(4,6)
 		plrdat["mov"] = random.randint(4,6)
 		plrdat["type"] = "Berserk"
 		os.system('cls')
