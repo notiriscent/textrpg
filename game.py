@@ -34,8 +34,8 @@ def newrun():
 	plrdat = {"hp":0,"dmg":0,"acc":0,"mov":0,"type":""}
 	c = con.input("[yellow bold]Select hero type[/]:\n\n[yellow bold]Archer[/] - very accurate yet easy to kill warrior, good against rats and goblins.\n[cyan bold]Thief[/] - weak but really sneaky guy, everyone hates him... WAIT WHERE DID MY GOLDEN WATCH GO?!?\n[red bold]Berserk[/] - strong but really inaccurate warrior, muscles.\n\n[green]>>[/] ")
 	if(c == "1" or c.lower() == "archer"):
-		# Archer stats: hp = 3-6, dmg = 3-5, acc = 6-10, mov = 3-6
-		plrdat["hp"] = random.randint(3,6)
+		# Archer stats: hp = 5-7, dmg = 3-5, acc = 6-10, mov = 3-6
+		plrdat["hp"] = random.randint(5,7)
 		plrdat["dmg"] = random.randint(3,5)
 		plrdat["acc"] = random.randint(6,10)
 		plrdat["mov"] = random.randint(3,6)
@@ -89,9 +89,9 @@ def run(dat):
 	elif(enem == "Smorc"):
 		enemstat = {"hp":random.randint(2,6),"dmg":random.randint(1,4),"mov":random.randint(2,4),"type":enem}
 	elif(enem == "Goblin"):
-		enemstat = {"hp":random.randint(2,4),"dmg":random.randint(1,2),"mov":random.randint(4,7),"type":enem}
+		enemstat = {"hp":random.randint(2,4),"dmg":random.randint(1,2),"mov":random.randint(4,5),"type":enem}
 	elif(enem == "Zompig"):
-		enemstat = {"hp":random.randint(4,7),"dmg":random.randint(3,5),"mov":random.randint(5,7),"type":enem}
+		enemstat = {"hp":random.randint(4,6),"dmg":random.randint(3,4),"mov":random.randint(3,5),"type":enem}
 	enemy = Enemy(enemstat)
 	fight(dat, enemy)
 
@@ -116,21 +116,20 @@ def fight(plr, enem):
 		chance = random.randint(0,3)
 		if(plr["acc"] - chance < enemstat["mov"]):
 			con.print("\n[red][-][/]You missed your attack!")
-			fight(plr,enem)
 		else:
 			enem.getstat()["hp"] -= att
-		con.print("\n[green][+][/]You Attacked and did " + str(att) + " damage!" +"\n\n[yellow bold]Its stats[/]:\n" + enem.getstatpretty())
-		if(enem.getstat()["hp"] <= 0):
-			con.print("\n[yellow][!][/]You killed [red]" + enem.getstat()["type"] + "[/]! Skipping to the next enemy...")
-			pause(plr)
-		else:
-			plrhpn = enem.attack(plr)
-			if(plrhpn <= 0):
-				con.print("\n\n[red][!][/]You have no health left... Good luck next time!\n\n")
-				getrpc().update(details="In Main Menu", state="Died last run...", large_image="icon", large_text="Text RPG 0.0.1", start=gettime())
-				pausemain()
-			else: 
-				fight(plr, enem)
+			con.print("\n[green][+][/]You Attacked and did " + str(att) + " damage!" +"\n\n")
+			if(enem.getstat()["hp"] <= 0):
+				con.print("\n[yellow][!][/]You killed [red]" + enem.getstat()["type"] + "[/]! Skipping to the next enemy...")
+				pause(plr)
+		
+		plrhpn = enem.attack(plr)
+		if(plrhpn <= 0):
+			con.print("\n\n[red][!][/]You have no health left... Good luck next time!\n\n")
+			getrpc().update(details="In Main Menu", state="Died last run...", large_image="icon", large_text="Text RPG 0.0.1", start=gettime())
+			pausemain()
+		else: 
+			fight(plr, enem)
 	elif(c == "2"):
 		con.print("\n******\n[yellow bold]Your stats[/]:\n\n[red bold]HP[/]: " + str(plr["hp"]) + "\n[yellow bold]DMG[/]: " + str(plr["dmg"]) + "\n[cyan bold]ACC[/]: " + str(plr["acc"]) + "\n[green bold]MOV[/]: " + str(plr["mov"]) + "\n******")
 		fight(plr, enem)
