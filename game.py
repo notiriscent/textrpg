@@ -1,6 +1,5 @@
 import random
-import time
-from rpc import update, getrpc, gettime
+from rpc import getrpc, gettime
 
 enemies = ["Smorc", "Goblin", "Rat", "Zompig"]
 
