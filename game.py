@@ -14,7 +14,7 @@ def main():
 	if(c == "1"):
 		newrun()
 	elif(c == "2"):
-		# getrpc().close()
+		getrpc().close()
 		quit()
 	elif(c == "3"):
 		info()
@@ -78,6 +78,7 @@ class Enemy:
 		hp = plr["hp"]
 		plr["hp"] -= att
 		con.print("[red]" + self.stat["type"] + "[/] Attacked you and did " + str(att) + " damage!")
+		return plr["hp"]
 
 def run(dat):
 	os.system('cls')
@@ -108,11 +109,11 @@ def fight(plr, enem):
 	#con.print("[red bold]HP[/]: " + str(plr["hp"]) + "  [yellow bold]DMG[/]: " + str(plr["dmg"]) + "  [cyan bold]ACC[/]: " + str(plr["acc"]) + "  [green bold]MOV[/]: " + str(plr["mov"]))
 	con.print("\n\nYou are fighting [red]" + enem.getstat()["type"] + "[/] !\n\n")
 	con.print("[yellow bold]Its stats[/]:\n" + enem.getstatpretty())
-	c = con.input("\n\n[yellow bold]Select an action[/]:\n1 - Attack\n2 - Check Your Stats\n3 - Run\n[green]>>[/] ")
+	c = con.input("\n\n[yellow bold]Select an action[/]:\n1 - Attack\n2 - Check Your Stats\n3 - Run\n4 - Main Menu\n[green]>>[/] ")
 	if(c == "1"):
 		att = plr["dmg"]
 		enemstat = enem.getstat()
-		chance = random.randint(0,10)
+		chance = random.randint(0,3)
 		if(plr["acc"] - chance < enemstat["mov"]):
 			con.print("\n[red][-][/]You missed your attack!")
 			fight(plr,enem)
@@ -123,9 +124,10 @@ def fight(plr, enem):
 			con.print("\n[yellow][!][/]You killed [red]" + enem.getstat()["type"] + "[/]! Skipping to the next enemy...")
 			pause(plr)
 		else:
-			enem.attack(plr)
-			if(plr["hp"] <= 0):
+			plrhpn = enem.attack(plr)
+			if(plrhpn <= 0):
 				con.print("\n\n[red][!][/]You have no health left... Good luck next time!\n\n")
+				getrpc().update(details="In Main Menu", state="Died last run...", large_image="icon", large_text="Text RPG 0.0.1", start=gettime())
 				pausemain()
 			else: 
 				fight(plr, enem)
@@ -145,6 +147,14 @@ def fight(plr, enem):
 		else:
 			con.print("\n[red][-][/]Something went terribly wrong. . .\n\n\n")
 			pausemain()
+	elif(c == "4"):
+		cc = con.input("\n[red][-] Are you sure? [/]\n[green]>> [/][yellow](y/N) [/]")
+		if(cc.lower() == "y"):
+			pausemain()
+		elif(cc.lower() == "n"):
+			fight(plr, enem)
+		else:
+			fight(plr, enem)
 	else:
 		fight(plr, enem)
 
