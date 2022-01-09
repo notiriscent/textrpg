@@ -18,16 +18,16 @@ def main():
 		main()
 
 def info():
-	print("HP: Amount of health points entity has.\nDMG: Damage entity does\nACC: Multiplier of chance that player will perfectly hit ULTIMATE ATTACK\nMOV: Multiplier of chance that entity will dodge the attack.\n\n")
+	print("HP: Amount of health points entity has.\nDMG: Damage entity does\nACC: Chance that your player will hit the attack.\nMOV: Multiplier of chance that entity will dodge the attack.\n\n")
 	main()
 
 def newrun():
 	plrdat = {"hp":0,"dmg":0,"acc":0,"mov":0,"type":""}
-	c = input("Select hero type:\n\nArcher - low HP, medium DMG, high ACC, medium MOV\nThief - medium HP, low DMG, high ACC, high MOV\nBerserk - high HP, high DMG, low ACC, medium MOV\n\n>>")
+	c = input("Select hero type:\n\nArcher - very accurate yet easy to kill warrior, good against rats and goblins\nThief - weak but really sneaky guy, everyone hates him... WAIT WHERE DID MY GOLDEN WATCH GO?!?\nBerserk - strong but really inaccurate warrior, muscles.\n\n>>")
 	if(c == "1" or c.lower() == "archer"):
-		# Archer stats: hp = 3-6, dmg = 4-8, acc = 6-10, mov = 3-6
+		# Archer stats: hp = 3-6, dmg = 3-5, acc = 6-10, mov = 3-6
 		plrdat["hp"] = random.randint(3,6)
-		plrdat["dmg"] = random.randint(4,8)
+		plrdat["dmg"] = random.randint(3,5)
 		plrdat["acc"] = random.randint(6,10)
 		plrdat["mov"] = random.randint(3,6)
 		plrdat["type"] = "Archer"
@@ -43,9 +43,9 @@ def newrun():
 		print("Your stats:\n\nHP: " + str(plrdat["hp"]) + "\nDMG: " + str(plrdat["dmg"]) + "\nACC: " + str(plrdat["acc"]) + "\nMOV: " + str(plrdat["mov"]))
 		run(plrdat)
 	elif(c == "3" or c.lower() == "berserk"):
-		# Berserk stats: hp = 9-13, dmg = 8-12, acc = 2-6, mov = 4-6
-		plrdat["hp"] = random.randint(9,13)
-		plrdat["dmg"] = random.randint(8,12)
+		# Berserk stats: hp = 9-13, dmg = 6-7, acc = 2-6, mov = 4-6
+		plrdat["hp"] = random.randint(7,10)
+		plrdat["dmg"] = random.randint(6,7)
 		plrdat["acc"] = random.randint(2,6)
 		plrdat["mov"] = random.randint(4,6)
 		plrdat["type"] = "Berserk"
@@ -82,25 +82,33 @@ def run(dat):
 	fight(dat, enemy)
 
 def fight(plr, enem):
-	print("\n\n\nYou are fighting " + enem.getstat()["type"] + " !\n\n")
+	print("\n\nYou are fighting " + enem.getstat()["type"] + " !\n\n")
 	print("Its stats:\n" + enem.getstatpretty())
-	c = input("\n\nSelect an action:\n1 - Attack\n2 - Run\n>> ")
+	c = input("\n\nSelect an action:\n1 - Attack\n2 - Check Your Stats\n3 - Run\n>> ")
 	if(c == "1"):
 		att = plr["dmg"]
-		hp = enem.getstat()["hp"]
-		enem.getstat()["hp"] -= att
+		enemstat = enem.getstat()
+		chance = random.randint(0,10)
+		if(plr["acc"] - chance < enemstat["mov"]):
+			print("\nYou missed your attack!")
+			fight(plr,enem)
+		else:
+			enem.getstat()["hp"] -= att
 		print("\nYou Attacked and did " + str(att) + " damage!" +"\n\nIts stats:\n" + enem.getstatpretty())
-		if(hp <= 0):
+		if(enem.getstat()["hp"] <= 0):
 			print("\nYou killed " + enem.getstat()["type"] + "! Skipping to the next enemy...")
 			run(plr)
 		else:
-			plrhp = plr["hp"]
 			enem.attack(plr)
-			if(plrhp <= 0):
+			if(plr["hp"] <= 0):
 				print("\n\nYou have no health left... Good luck next time!\n\n")
 				main()
-			else: fight(plr, enem)
+			else: 
+				fight(plr, enem)
 	elif(c == "2"):
+		print("\n******\nYour stats:\n\nHP: " + str(plr["hp"]) + "\nDMG: " + str(plr["dmg"]) + "\nACC: " + str(plr["acc"]) + "\nMOV: " + str(plr["mov"]) + "\n******")
+		fight(plr, enem)
+	elif(c == "3"):
 		chance = random.randint(1,9)
 		skill = plr["mov"]
 		if(skill<chance):
@@ -114,9 +122,7 @@ def fight(plr, enem):
 			print("\nSomething went terribly wrong. . .\n\n\n")
 			main()
 	else:
-		run(plr)
-
-
+		fight(plr, enem)
 
 if __name__ == '__main__':
 	main()
