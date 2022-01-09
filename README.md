@@ -6,3 +6,5 @@
 
 If you'd like to donate, here's my ETH wallet:
 [![Ethereum](https://img.shields.io/badge/Ethereum-3C3C3D?style=for-the-badge&logo=Ethereum&logoColor=white)](https://etherscan.io/address/0x695E31D87A3046d120B517181A87A50bb1B83EDB)
+
+###### Thanks to @Danilus-s for adding colors!
