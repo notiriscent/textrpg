@@ -10,7 +10,7 @@ os.system('cls')
 con = Console()
 
 def main():
-	c = con.input("[yellow bold]Select an action:[/]\n\n1 - New Run\n\n2 - Exit\n\n3 - Skill Info\n\n\n[green]>>[/] ")
+	c = con.input("[yellow bold]Select an action:[/]\n\n1 - New Run\n\n2 - Exit\n\n3 - Skill Info\n\n\n[green]>>[/] ").strip()
 	if(c == "1"):
 		newrun()
 	elif(c == "2"):
@@ -32,7 +32,7 @@ def printinfo(plrdat):
 def newrun():
 	os.system('cls')
 	plrdat = {"hp":0,"dmg":0,"acc":0,"mov":0,"type":""}
-	c = con.input("[yellow bold]Select hero type[/]:\n\n[yellow bold]Archer[/] - very accurate yet easy to kill warrior, good against rats and goblins.\n[cyan bold]Thief[/] - weak but really sneaky guy, everyone hates him... WAIT WHERE DID MY GOLDEN WATCH GO?!?\n[red bold]Berserk[/] - strong but really inaccurate warrior, muscles.\n\n[green]>>[/] ")
+	c = con.input("[yellow bold]Select hero type[/]:\n\n[yellow bold]Archer[/] - very accurate yet easy to kill warrior, good against rats and goblins.\n[cyan bold]Thief[/] - weak but really sneaky guy, everyone hates him... WAIT WHERE DID MY GOLDEN WATCH GO?!?\n[red bold]Berserk[/] - strong but really inaccurate warrior, muscles.\n\n[green]>>[/] ").strip()
 	if(c == "1" or c.lower() == "archer"):
 		# Archer stats: hp = 5-7, dmg = 3-5, acc = 7-10, mov = 3-6
 		plrdat["hp"] = random.randint(5,7)
@@ -96,12 +96,12 @@ def run(dat):
 	fight(dat, enemy)
 
 def pause(plr):
-	con.input("\n\n[yellow bold]Select an action[/]:\n[cyan bold]any[/] - Go next\n[green]>>[/] ")
+	con.input("\n\n[yellow bold]Select an action[/]:\n[cyan bold]any[/] - Go next\n[green]>>[/] ").strip()
 	run(plr)
 
 
 def pausemain():
-	con.input("\n\n[yellow bold]Select an action[/]:\n[cyan bold]any[/] - Go next\n[green]>>[/] ")
+	con.input("\n\n[yellow bold]Select an action[/]:\n[cyan bold]any[/] - Go next\n[green]>>[/] ").strip()
 	os.system('cls')
 	main()
 
@@ -109,7 +109,7 @@ def fight(plr, enem):
 	#con.print("[red bold]HP[/]: " + str(plr["hp"]) + "  [yellow bold]DMG[/]: " + str(plr["dmg"]) + "  [cyan bold]ACC[/]: " + str(plr["acc"]) + "  [green bold]MOV[/]: " + str(plr["mov"]))
 	con.print("\n\nYou are fighting [red]" + enem.getstat()["type"] + "[/] !\n\n")
 	con.print("[yellow bold]Its stats[/]:\n" + enem.getstatpretty())
-	c = con.input("\n\n[yellow bold]Select an action[/]:\n1 - Attack\n2 - Check Your Stats\n3 - Run\n4 - Main Menu\n[green]>>[/] ")
+	c = con.input("\n\n[yellow bold]Select an action[/]:\n1 - Attack\n2 - Check Your Stats\n3 - Run\n4 - Main Menu\n[green]>>[/] ").strip()
 	if(c == "1"):
 		att = plr["dmg"]
 		enemstat = enem.getstat()
@@ -147,7 +147,7 @@ def fight(plr, enem):
 			con.print("\n[red][-][/]Something went terribly wrong. . .\n\n\n")
 			pausemain()
 	elif(c == "4"):
-		cc = con.input("\n[red][-] Are you sure? [/]\n[green]>> [/][yellow](y/N) [/]")
+		cc = con.input("\n[red][-] Are you sure? [/]\n[green]>> [/][yellow](y/N) [/]").strip()
 		if(cc.lower() == "y"):
 			pausemain()
 		elif(cc.lower() == "n"):
