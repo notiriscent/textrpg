@@ -1,0 +1,24 @@
+{
+	"menu": {
+		"actions": "[yellow bold]Select an action:[/]\n\n1 - New Run\n\n2 - Exit\n\n3 - Skill Info\n\n\n[green]>>[/] ",
+		"skills": "[red bold]HP[/]: Amount of health points entity has.\n[yellow bold]DMG[/]: Damage entity does\n[cyan bold]ACC[/]: Chance that your player will hit the attack.\n[green bold]MOV[/]: Multiplier of chance that entity will dodge the attack. OR, chance of escaping the battle.\n\n"
+	},
+	"game": {
+		"stats": "[yellow bold]Your stats[/]",
+		"sel_hero": "[yellow bold]Select hero type[/]:\n\n[yellow bold]Archer[/] - very accurate yet easy to kill warrior, good against rats and goblins.\n[cyan bold]Thief[/] - weak but really sneaky guy, everyone hates him... WAIT WHERE DID MY GOLDEN WATCH GO?!?\n[red bold]Berserk[/] - strong but really inaccurate warrior, muscles.",
+		"att_you": "Attacked you and did ",
+		"att_enem": "You Attacked and did ",
+		"fight_menu": "[yellow bold]Select an action[/]:\n1 - Attack\n2 - Check Your Stats\n3 - Run\n4 - Main Menu\n",
+		"miss": "You missed your attack!",
+		"victory": "You killed",
+		"escape_fail": "You tried to escape, but failed... You tripped and got killed",
+		"escape_success": "You tried to escape, and did it! "
+	},
+	"other": {
+		"pause_text": "[yellow bold]Select an action[/]",
+		"pause_action": "Next",
+		"next_enemy": "Skipping to the next enemy",
+		"error": "Something went terribly wrong. . .",
+		"confirm": "Are you sure?"
+	}
+}
