@@ -6,8 +6,8 @@
 
 (yes md badges are cool)
 
-Translators:
-English, Russian - Me
-Polish - DaveSuttonArt
+## Translators:
+- English, Russian - Me
+- Polish - DaveSuttonArt
 
 ###### Thanks to @Danilus-s for adding colors!
